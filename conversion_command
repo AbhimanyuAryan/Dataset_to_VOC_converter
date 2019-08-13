@@ -1,0 +1,1 @@
+python vbb2voc.py --seq_dir=/home/redtwo/Documents/Dataset/Caltech --vbb_dir=/home/redtwo/Documents/Dataset/Caltech/annotations --output_dir=/home/redtwo/pad --person_type=person

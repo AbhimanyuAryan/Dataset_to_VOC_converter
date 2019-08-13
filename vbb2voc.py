@@ -160,12 +160,18 @@ def parse_anno_file(vbb_inputdir, seq_inputdir, vbb_outputdir, seq_outputdir, pe
             If None, all will be used:
     """
     # annotation sub-directories in hda annotation input directory
+   
     assert os.path.exists(vbb_inputdir)
-    sub_dirs = os.listdir(vbb_inputdir)
+    sub_dirs = os.listdir(vbb_inputdir)   
     for sub_dir in sub_dirs:
-        print("Parsing annotations of camera: ", sub_dir)
+        #print("Parsing annotations of camera: ", sub_dir)
         cam_id = sub_dir
-        vbb_files = glob.glob(os.path.join(vbb_inputdir, sub_dir, "*.vbb"))
+        #print(cam_id)
+        #print(vbb_inputdir, "   ", sub_dir)
+        paths = os.path.join(vbb_inputdir, sub_dir, "*.vbb")
+        print(paths)
+        vbb_files = glob.glob(paths)
+        print(vbb_files)
         for vbb_file in vbb_files:
             annos = vbb_anno2dict(vbb_file, cam_id, person_types=person_types)
             if annos:
@@ -214,6 +220,7 @@ def main():
                                                       "separated with comma",
                         choices=["person", "person-fa", "person?", "people"])
     args = parser.parse_args()
+    print(args["seq_dir"])
     outdir = args.output_dir
     frame_out = os.path.join(outdir, "frame")
     anno_out = os.path.join(outdir, "annotation")
@@ -223,16 +230,19 @@ def main():
 
 
 def test():
-    seq_inputdir = "/startdt_data/caltech_pedestrian_dataset"
-    vbb_inputdir = "/startdt_data/caltech_pedestrian_dataset/annotations"
-    seq_outputdir = "/startdt_data/caltech_pedestrian_dataset/test"
-    vbb_outputdir = "/startdt_data/caltech_pedestrian_dataset/test"
+    seq_inputdir = "/home/redtwo/Documents/Dataset/Caltech/"
+    vbb_inputdir = "/home/redtwo/Documents/Dataset/Caltech/annotations"
+    outdir = "/home/redtwo/p"
+
+    frame_out = os.path.join(outdir, "frame")
+    anno_out = os.path.join(outdir, "annotation")
+
     person_types = ["person"]
-    parse_anno_file(vbb_inputdir, seq_inputdir, vbb_outputdir, seq_outputdir, person_types=person_types)
+    parse_anno_file(vbb_inputdir, seq_inputdir, frame_out, anno_out, person_types=person_types)
     # xml_file = "/startdt_data/caltech_pedestrian_dataset/annotations/set00/bbox/set00_V013_1511.xml"
     # img_file = "/startdt_data/caltech_pedestrian_dataset/set00/frame/set00_V013_1511.jpg"
     # visualize_bbox(xml_file, img_file)
-
+    print("Generating done!")
 
 if __name__ == "__main__":
-    main()
+    test()
